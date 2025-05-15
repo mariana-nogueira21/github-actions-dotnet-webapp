@@ -1,0 +1,27 @@
+name: .NET Build
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 * * * *'  # Executa a cada hora
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Setup do .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restaurar dependências
+        run: dotnet restore
+
+      - name: Build do projeto
+        run: dotnet build --no-restore --configuration Release
